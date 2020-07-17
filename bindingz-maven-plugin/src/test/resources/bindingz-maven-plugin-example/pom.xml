@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.bindingz</groupId>
+  <artifactId>bindingz-maven-plugin-example</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>Bindingz Mojo</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.bindingz</groupId>
+      <artifactId>bindingz-annotations</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.10.1</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.bindingz</groupId>
+        <artifactId>bindingz-maven-plugin</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <configuration>
+          <apiKey>cPrS6nyv.ac5bc2f16417e79f2517531c2f6a0591</apiKey>
+          <registry>https://api.bindingz.io</registry>
+          <processConfigurations>
+            <processConfiguration>
+              <namespace>default</namespace>
+              <owner>project-to-test</owner>
+              <contractName>ProjectToTestDto</contractName>
+              <version>v4</version>
+              <packageName>io.bindingz.sample.latest</packageName>
+              <className>SampleDto</className>
+              <sourceCodeConfiguration>
+                <targetLanguage>SCALA</targetLanguage>
+              </sourceCodeConfiguration>
+            </processConfiguration>
+          </processConfigurations>
+          <publishConfigurations>
+            <publishConfiguration>
+              <scanBasePackage>project.to.test</scanBasePackage>
+            </publishConfiguration>
+          </publishConfigurations>
+        </configuration>
+        <executions>
+          <execution>
+            <id>processResources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>processResources</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>publishResources</id>
+            <phase>package</phase>
+            <goals>
+              <goal>publishResources</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

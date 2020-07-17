@@ -1,0 +1,64 @@
+apply plugin: 'java'
+apply plugin: 'bindingz'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'io.bindingz:bindingz-gradle-plugin:1.0.0-SNAPSHOT'
+    }
+}
+
+bindingz {
+    apiKey = "cPrS6nyv.ac5bc2f16417e79f2517531c2f6a0591"
+    registry = "https://api.bindingz.io"
+    publishConfigurations {
+        one {
+            scanBasePackage = "io.bindingz"
+        }
+    }
+    processConfigurations {
+        one {
+            namespace = "default"
+            owner = "bindingz-gradle-plugin-example"
+            contractName = "FooBarEvent"
+            version = "1.0"
+            packageName = "io.bindingz.sample.scala"
+            className = "LocalFooBarEvent"
+            sourceCodeConfiguration {
+                targetLanguage = "SCALA"
+            }
+        }
+        two {
+            namespace = "default"
+            owner = "bindingz-gradle-plugin-example"
+            contractName = "FooBarEvent"
+            version = "1.0"
+            packageName = "io.bindingz.sample.java"
+            className = "LocalFooBarEvent"
+            sourceCodeConfiguration {
+                targetLanguage = "JAVA"
+            }
+        }
+    }
+}
+
+dependencies {
+    compile 'io.bindingz:bindingz-annotations:1.0.0-SNAPSHOT'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.9.8'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.8'
+}
+
+clean.doFirst {
+    delete "${rootDir}/out"
+    delete "${rootDir}/build"
+    delete "${rootDir}/target"
+}

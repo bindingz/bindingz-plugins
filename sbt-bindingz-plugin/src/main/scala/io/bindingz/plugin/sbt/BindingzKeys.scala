@@ -30,4 +30,7 @@ trait BindingzKeys {
 
   val bindingzProcessResources = taskKey[Unit]("Process resources")
   val bindingzPublishResources = taskKey[Unit]("Publish contract code")
+
+  val BindingzProcessConfiguration = io.bindingz.plugin.sbt.BindingzProcessConfiguration
+  val BindingzPublishConfiguration = io.bindingz.plugin.sbt.BindingzPublishConfiguration
 }

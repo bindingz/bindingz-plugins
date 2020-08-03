@@ -27,7 +27,6 @@ import sbt.{AutoPlugin, Compile, Def, File, IO, PluginTrigger, Plugins, Setting,
 
 import scala.collection.JavaConverters._
 import scala.reflect.internal.util.ScalaClassLoader.URLClassLoader
-import scala.collection.JavaConverters._
 
 object BindingzPlugin extends AutoPlugin {
 
@@ -50,12 +49,9 @@ object BindingzPlugin extends AutoPlugin {
     bindingzProcessConfigurations := Seq(),
     bindingzPublishConfigurations := Seq(),
 
-    bindingzProcessResources := Def.sequential(
-      processResources,
-      compile in Compile
-    ).value,
+    bindingzPublishResources := publishResources.value,
 
-    bindingzPublishResources := publishResources.value
+    (compile in Compile) := ((compile in Compile) dependsOn processResources).value
   )
 
   def processResources =  Def.task {

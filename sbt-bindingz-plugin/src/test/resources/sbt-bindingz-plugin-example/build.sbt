@@ -11,15 +11,15 @@ libraryDependencies ++= Seq(
   "io.bindingz" % "bindingz-annotations" % "1.0.0-SNAPSHOT"
 )
 
-bindingzApiKey := "cPrS6nyv.ac5bc2f16417e79f2517531c2f6a0591"
+bindingzApiKey := "PgAPE2o7.fbc9da33d43fec0163e0c41daadff4d5"
 bindingzProcessConfigurations := Seq(
   BindingzProcessConfiguration(
-    namespace = "default",
-    owner = "sbt-plugin-example",
-    contractName = "SampleDto",
-    version = "v4",
+    namespace = "payments",
+    owner = "billing-service",
+    contractName = "InvoiceItem",
+    version = "0.1-SNAPSHOT",
     packageName = "io.bindingz.sample.latest",
-    className = "FooBar",
+    className = "InvoiceItemDto",
     providerConfiguration = Map(
       "targetLanguage" -> "SCALA"
     )

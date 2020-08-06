@@ -50,6 +50,7 @@ object BindingzPlugin extends AutoPlugin {
     bindingzPublishConfigurations := Seq(),
 
     bindingzPublishResources := publishResources.value,
+    bindingzProcessResources := processResources.value,
 
     (compile in Compile) := ((compile in Compile) dependsOn processResources).value
   )

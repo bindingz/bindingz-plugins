@@ -18,8 +18,6 @@ buildscript {
 }
 
 bindingz {
-    apiKey = "cPrS6nyv.ac5bc2f16417e79f2517531c2f6a0591"
-    registry = "https://api.bindingz.io"
     publishConfigurations {
         one {
             scanBasePackage = "io.bindingz"

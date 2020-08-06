@@ -31,18 +31,16 @@
         <artifactId>bindingz-maven-plugin</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <configuration>
-          <apiKey>cPrS6nyv.ac5bc2f16417e79f2517531c2f6a0591</apiKey>
-          <registry>https://api.bindingz.io</registry>
           <processConfigurations>
             <processConfiguration>
               <namespace>default</namespace>
-              <owner>project-to-test</owner>
+              <owner>bindingz-maven-plugin-example</owner>
               <contractName>ProjectToTestDto</contractName>
-              <version>v4</version>
+              <version>5.0-SNAPSHOT</version>
               <packageName>io.bindingz.sample.latest</packageName>
               <className>SampleDto</className>
               <sourceCodeConfiguration>
-                <targetLanguage>SCALA</targetLanguage>
+                <targetLanguage>JAVA</targetLanguage>
               </sourceCodeConfiguration>
             </processConfiguration>
           </processConfigurations>

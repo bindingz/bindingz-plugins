@@ -2,7 +2,7 @@ package project.to.test;
 
 import io.bindingz.api.annotations.Contract;
 
-@Contract(contractName = "ProjectToTestDto", owner = "project-to-test", version = "v5")
+@Contract(contractName = "ProjectToTestDto", owner = "bindingz-maven-plugin-example", version = "5.0-SNAPSHOT")
 public class ProjectToTestDto {
     private float accountId;
     private String code;

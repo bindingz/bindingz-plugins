@@ -12,10 +12,10 @@ public abstract class AbstractBindingzMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     protected MavenProject project;
 
-    @Parameter(defaultValue = "https://d4wt28di9g.execute-api.eu-west-1.amazonaws.com/Stage", property = "registry", required = true)
+    @Parameter(property = "registry")
     protected String registry;
 
-    @Parameter(property = "apiKey", required = true)
+    @Parameter(property = "apiKey")
     protected String apiKey;
 
     @Parameter(defaultValue = "${project.build.directory}/generated-sources/bindingz", property = "targetSourceDirectory")

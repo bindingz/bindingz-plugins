@@ -11,7 +11,6 @@ libraryDependencies ++= Seq(
   "io.bindingz" % "bindingz-annotations" % "1.0.0-SNAPSHOT"
 )
 
-bindingzApiKey := "PgAPE2o7.fbc9da33d43fec0163e0c41daadff4d5"
 bindingzProcessConfigurations := Seq(
   BindingzProcessConfiguration(
     namespace = "payments",

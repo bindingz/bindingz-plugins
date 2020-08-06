@@ -40,7 +40,7 @@ object BindingzPlugin extends AutoPlugin {
   import autoImport._
 
   override lazy val projectSettings: Seq[Setting[_]] = Seq(
-    bindingzRegistry := "https://d4wt28di9g.execute-api.eu-west-1.amazonaws.com/Stage",
+    bindingzRegistry := "",
     bindingzApiKey := "",
 
     bindingzTargetSourceDirectory := file("target/generated-sources/bindingz"),

@@ -28,7 +28,7 @@ trait BindingzKeys {
   val bindingzPublishConfigurations = settingKey[Seq[BindingzPublishConfiguration]]("Bindingz publish configurations")
   val bindingzProcessConfigurations = settingKey[Seq[BindingzProcessConfiguration]]("Bindingz process configurations")
 
-  val bindingzProcessResources = taskKey[Unit]("Process resources")
+  val bindingzProcessResources = taskKey[Seq[File]]("Process resources")
   val bindingzPublishResources = taskKey[Unit]("Publish contract code")
 
   val BindingzProcessConfiguration = io.bindingz.plugin.sbt.BindingzProcessConfiguration

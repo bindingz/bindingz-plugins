@@ -1,5 +1,4 @@
-
-name := "sbt-plugin-example"
+name := "sbt-bindingz-plugin-example"
 organization := "io.bindingz"
 version := "1.0.0-SNAPSHOT"
 
@@ -8,15 +7,17 @@ resolvers += Resolver.mavenCentral
 resolvers += Resolver.sonatypeRepo("releases")
 
 libraryDependencies ++= Seq(
-  "io.bindingz" % "bindingz-annotations" % "1.0.0-SNAPSHOT"
+  "io.bindingz" % "bindingz-annotations" % "1.0.0-SNAPSHOT",
+  "com.fasterxml.jackson.core" % "jackson-core" % "2.9.8",
+  "com.fasterxml.jackson.core" % "jackson-annotations" % "2.9.8"
 )
 
 bindingzProcessConfigurations := Seq(
   BindingzProcessConfiguration(
-    namespace = "payments",
-    owner = "billing-service",
-    contractName = "InvoiceItem",
-    version = "0.1-SNAPSHOT",
+    namespace = "default",
+    owner = "sbt-bindingz-plugin-example",
+    contractName = "SampleDto",
+    version = "v5",
     packageName = "io.bindingz.sample.latest",
     className = "InvoiceItemDto",
     providerConfiguration = Map(

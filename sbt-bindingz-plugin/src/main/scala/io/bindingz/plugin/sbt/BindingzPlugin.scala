@@ -22,8 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import io.bindingz.api.client.{ContractRegistryClient, ContractService}
 import io.bindingz.api.configuration.SourceCodeConfiguration
-import sbt.Keys.{compile, fullClasspath, resourceDirectories, sourceDirectories}
-import sbt.{AutoPlugin, Compile, Def, File, IO, PluginTrigger, Plugins, Setting, file, plugins}
+import sbt.Keys._
+import sbt.{AutoPlugin, Compile, Def, File, IO, PluginTrigger, Plugins, Setting, Test, inConfig, plugins}
 
 import scala.collection.JavaConverters._
 import scala.reflect.internal.util.ScalaClassLoader.URLClassLoader
@@ -39,26 +39,30 @@ object BindingzPlugin extends AutoPlugin {
 
   import autoImport._
 
+  // settings to be applied for both Compile and Test
+  lazy val configScopedSettings: Seq[Setting[_]] = Seq(
+    bindingzProcessResources := processResources.value,
+    bindingzPublishResources := publishResources.value,
+    sourceGenerators += bindingzProcessResources.taskValue,
+    sourceDirectories += bindingzTargetSourceDirectory.value,
+    resourceDirectories += bindingzTargetResourceDirectory.value
+  )
+
   override lazy val projectSettings: Seq[Setting[_]] = Seq(
     bindingzRegistry := "",
     bindingzApiKey := "",
 
-    bindingzTargetSourceDirectory := file("target/generated-sources/bindingz"),
-    bindingzTargetResourceDirectory := file("target/generated-resources/bindingz"),
+    bindingzTargetSourceDirectory := Paths.get(sourceManaged.value.toString, "bindingz").toFile,
+    bindingzTargetResourceDirectory := Paths.get(resourceManaged.value.toString, "bindingz").toFile,
 
     bindingzProcessConfigurations := Seq(),
-    bindingzPublishConfigurations := Seq(),
-
-    bindingzPublishResources := publishResources.value,
-    bindingzProcessResources := processResources.value,
-
-    (compile in Compile) := ((compile in Compile) dependsOn processResources).value
-  )
+    bindingzPublishConfigurations := Seq()
+  ) ++ Seq(Compile, Test).flatMap(c => inConfig(c)(configScopedSettings))
 
   def processResources =  Def.task {
     val client = new ContractRegistryClient(bindingzRegistry.value, bindingzApiKey.value, objectMapper)
 
-    bindingzProcessConfigurations.value.map(c => {
+    bindingzProcessConfigurations.value.flatMap(c => {
       val sourceCodeConfiguration = new SourceCodeConfiguration()
       sourceCodeConfiguration.setPackageName(c.packageName)
       sourceCodeConfiguration.setClassName(c.className)
@@ -78,16 +82,14 @@ object BindingzPlugin extends AutoPlugin {
 
       IO.write(resourcePath.toFile, objectMapper.writeValueAsString(source.getContent().getSchema))
 
-      source.getSources.asScala.foreach(s => {
+      source.getSources.asScala.map(s => {
         val sourcePath = Paths.get(bindingzTargetSourceDirectory.value.toString, s.getFile.asScala.toArray:_*)
         sourcePath.getParent.toFile.mkdir()
 
         IO.write(sourcePath.toFile, s.getContent)
+        sourcePath.toFile
       })
     })
-
-    resourceDirectories.in(Compile) += bindingzTargetResourceDirectory.value
-    sourceDirectories.in(Compile) += bindingzTargetSourceDirectory.value
   }
 
   def publishResources =  Def.task {

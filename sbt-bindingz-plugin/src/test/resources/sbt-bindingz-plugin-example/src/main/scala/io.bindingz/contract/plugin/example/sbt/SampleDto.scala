@@ -18,5 +18,5 @@ package io.bindingz.contract.plugin.example.sbt
 
 import io.bindingz.api.annotations.Contract
 
-@Contract(namespace = "default", owner = "sbt-plugin-example", contractName = "SampleDto", version = "v4")
+@Contract(namespace = "default", owner = "sbt-bindingz-plugin-example", contractName = "SampleDto", version = "v5-SNAPSHOT")
 case class SampleDto(val one: String)

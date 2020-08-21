@@ -1,6 +1,5 @@
 name := "sbt-bindingz-plugin"
 organization := "io.bindingz"
-version := "1.0.0-SNAPSHOT"
 
 sbtPlugin := true
 crossSbtVersions := Seq("1.2.1")

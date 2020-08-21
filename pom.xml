@@ -19,8 +19,9 @@
 
     <scm>
         <url>https://github.com/bindingz/bindingz-plugins</url>
-        <connection>scm:git:git://github.com/bindingz/bindingz-plugins.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:bindingz/bindingz-plugins.git</developerConnection>
+        <connection>scm:git:https://github.com/bindingz/bindingz-plugins.git</connection>
+        <developerConnection>scm:git:https://github.com/bindingz/bindingz-plugins.git</developerConnection>
+        <tag>HEAD</tag>
     </scm>
 
     <licenses>
@@ -119,12 +120,20 @@
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>1.12</version>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
-                <id>release</id>
+            <id>release</id>
             <activation>
                 <property>
                     <name>performRelease</name>

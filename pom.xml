@@ -4,7 +4,7 @@
 
     <groupId>io.bindingz</groupId>
     <artifactId>bindingz-plugins</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>bindingz-plugins</name>
@@ -41,6 +41,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.version>3.3.9</maven.version>
         <jackson.version>2.10.0.pr1</jackson.version>
+        <bindingz.core.version>1.0.0</bindingz.core.version>
     </properties>
 
     <build>
@@ -165,22 +166,22 @@
             <dependency>
                 <groupId>io.bindingz</groupId>
                 <artifactId>bindingz-annotations</artifactId>
-                <version>1.0.0</version>
+                <version>${bindingz.core.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.bindingz</groupId>
                 <artifactId>bindingz-core</artifactId>
-                <version>${project.version}</version>
+                <version>${bindingz.core.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.bindingz</groupId>
                 <artifactId>source-code-provider</artifactId>
-                <version>${project.version}</version>
+                <version>${bindingz.core.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.bindingz</groupId>
                 <artifactId>bindingz-api-client-java</artifactId>
-                <version>1.0.0</version>
+                <version>${bindingz.core.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.bindingz</groupId>

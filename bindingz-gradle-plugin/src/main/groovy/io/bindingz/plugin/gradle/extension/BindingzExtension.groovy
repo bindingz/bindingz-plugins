@@ -19,7 +19,7 @@ package io.bindingz.plugin.gradle.extension
 import org.gradle.api.NamedDomainObjectContainer
 
 class BindingzExtension {
-    String registry = "https://d4wt28di9g.execute-api.eu-west-1.amazonaws.com/Stage"
+    String registry
     String apiKey
 
     File targetSourceDirectory;

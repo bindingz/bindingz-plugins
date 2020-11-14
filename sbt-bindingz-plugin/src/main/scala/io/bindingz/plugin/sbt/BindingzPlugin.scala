@@ -26,7 +26,6 @@ import sbt.Keys._
 import sbt.{AutoPlugin, Compile, Def, File, IO, PluginTrigger, Plugins, Setting, Test, inConfig, plugins}
 
 import scala.collection.JavaConverters._
-import scala.reflect.internal.util.ScalaClassLoader.URLClassLoader
 
 object BindingzPlugin extends AutoPlugin {
 
@@ -61,6 +60,8 @@ object BindingzPlugin extends AutoPlugin {
 
   def processResources =  Def.task {
     val client = new ContractRegistryClient(bindingzRegistry.value, bindingzApiKey.value, objectMapper)
+    val resourceDirectory = bindingzTargetResourceDirectory.value.toString
+    val sourceDirectory = bindingzTargetSourceDirectory.value.toString
 
     bindingzProcessConfigurations.value.flatMap(c => {
       val sourceCodeConfiguration = new SourceCodeConfiguration()
@@ -77,13 +78,13 @@ object BindingzPlugin extends AutoPlugin {
         sourceCodeConfiguration
       )
 
-      val resourcePath = Paths.get(bindingzTargetResourceDirectory.value.toString, c.namespace, c.owner, c.contractName, c.version)
+      val resourcePath = Paths.get(resourceDirectory, c.namespace, c.owner, c.contractName, c.version)
       resourcePath.getParent.toFile.mkdir()
 
       IO.write(resourcePath.toFile, objectMapper.writeValueAsString(source.getContent().getSchema))
 
       source.getSources.asScala.map(s => {
-        val sourcePath = Paths.get(bindingzTargetSourceDirectory.value.toString, s.getFile.asScala.toArray:_*)
+        val sourcePath = Paths.get(sourceDirectory, s.getFile.asScala.toArray:_*)
         sourcePath.getParent.toFile.mkdir()
 
         IO.write(sourcePath.toFile, s.getContent)
@@ -94,7 +95,7 @@ object BindingzPlugin extends AutoPlugin {
 
   def publishResources =  Def.task {
     val cp: Seq[File] = (fullClasspath in Compile).value.files
-    val classLoader = new URLClassLoader(cp.map(c => c.toURI.toURL), this.getClass.getClassLoader)
+    val classLoader = ClassLoaderFactory.createClassLoader(cp)
     val client = new ContractRegistryClient(bindingzRegistry.value, bindingzApiKey.value, objectMapper)
     val contractService = new ContractService(objectMapper)
     bindingzPublishConfigurations.value.map(c => {

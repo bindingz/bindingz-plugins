@@ -7,50 +7,70 @@ repositories {
 }
 
 buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
+  repositories {
+    mavenCentral()
+  }
 
-    dependencies {
-        classpath 'io.bindingz:bindingz-gradle-plugin:1.0.0-SNAPSHOT'
-    }
+  dependencies {
+    classpath 'io.bindingz:bindingz-gradle-plugin:1.0.3'
+  }
 }
 
 bindingz {
-    publishConfigurations {
-        one {
-            scanBasePackage = "io.bindingz"
-        }
+  apiKey = "PXZSsr86.f5212adc5c3db8f64692969bb523f30f"
+  registry = "https://api.bindingz.io"
+  processConfigurations {
+    "your.company.package.v3.YourContractName" {
+      namespace = "payments"
+      owner = "billing-service"
+      contractName = "InvoiceItem"
+      version = "0.2-SNAPSHOT"
+      packageName = "your.company.package.v3"
+      className = "YourContractName"
+      sourceCodeConfiguration {
+           targetLanguage = "JAVA"
+           annotationStyle = "JACKSON"
+           includeJsr303Annotations = "true"
+           includeJsr305Annotations = "true"
+           usePrimitives = "true"
+           useLongIntegers = "true"
+           useBigIntegers = "true"
+           useDoubleNumbers = "true"
+           useBigDecimals = "true"
+           generateBuilders = "true"
+           useInnerClassBuilders = "true"
+           includeConstructors = "true"
+           constructorsRequiredPropertiesOnly = "true"
+           includeToString = "true"
+           useTitleAsClassname = "true"
+           useOptionalForGetters = "true"
+           classNamePrefix = "Prefix"
+           classNameSuffix = "Suffix"
+           includeAdditionalProperties = "true"
+           includeGetters = "true"
+           includeSetters = "true"
+           includeDynamicAccessors = "true"
+           includeDynamicGetters = "true"
+           includeDynamicSetters = "true"
+           includeDynamicBuilders = "true"
+           useJodaDates = "true"
+           useJodaLocalDates = "true"
+           useJodaLocalTimes = "true"
+           formatDates = "true"
+           formatTimes = "true"
+           formatDateTimes = "true"
+           parcelable = "true"
+           serializable = "true"
+           initializeCollections = "true"
+           includeHashcodeAndEquals = "true"
+
+      }
     }
-    processConfigurations {
-        one {
-            namespace = "default"
-            owner = "bindingz-gradle-plugin-example"
-            contractName = "FooBarEvent"
-            version = "1.0"
-            packageName = "io.bindingz.sample.scala"
-            className = "LocalFooBarEvent"
-            sourceCodeConfiguration {
-                targetLanguage = "SCALA"
-            }
-        }
-        two {
-            namespace = "default"
-            owner = "bindingz-gradle-plugin-example"
-            contractName = "FooBarEvent"
-            version = "1.0"
-            packageName = "io.bindingz.sample.java"
-            className = "LocalFooBarEvent"
-            sourceCodeConfiguration {
-                targetLanguage = "JAVA"
-            }
-        }
-    }
+  }
 }
 
 dependencies {
-    compile 'io.bindingz:bindingz-annotations:1.0.0-SNAPSHOT'
+    compile 'io.bindingz:bindingz-annotations:1.0.0'
     compile 'com.fasterxml.jackson.core:jackson-core:2.9.8'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.8'
 }

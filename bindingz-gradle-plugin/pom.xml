@@ -21,23 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>io.bindingz</groupId>
-            <artifactId>bindingz-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.bindingz</groupId>
             <artifactId>bindingz-api-client-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>jackson-module-jsonSchema</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.dorkbox</groupId>
-            <artifactId>Annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
@@ -75,6 +59,11 @@
             <artifactId>gradle-process-services</artifactId>
             <version>${gradle.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

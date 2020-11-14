@@ -17,7 +17,7 @@
 package io.bindingz.plugin.gradle.tasks
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.bindingz.api.configuration.SourceCodeConfiguration
+import io.bindingz.api.model.SourceCodeConfiguration
 import io.bindingz.api.client.ContractRegistryClient
 import io.bindingz.plugin.gradle.extension.ProcessConfiguration
 import org.gradle.api.DefaultTask

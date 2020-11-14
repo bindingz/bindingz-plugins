@@ -17,11 +17,11 @@
 package io.bindingz.plugin.maven.tasks;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.bindingz.api.configuration.SourceCodeConfiguration;
-import io.bindingz.api.model.ContractDto;
-import io.bindingz.plugin.maven.ProcessConfiguration;
 import io.bindingz.api.client.ContractRegistryClient;
-import io.bindingz.api.client.model.SourceResource;
+import io.bindingz.api.model.ContractDto;
+import io.bindingz.api.model.SourceCodeConfiguration;
+import io.bindingz.api.model.SourceResource;
+import io.bindingz.plugin.maven.ProcessConfiguration;
 
 import java.io.File;
 import java.io.IOException;

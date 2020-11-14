@@ -2,7 +2,8 @@ name := "sbt-bindingz-plugin"
 organization := "io.bindingz"
 
 sbtPlugin := true
-crossSbtVersions := Seq("1.2.1")
+crossScalaVersions := Seq("2.10.6", "2.12.0")
+crossSbtVersions := Seq("0.13.16", "1.2.1")
 
 resolvers += Resolver.mavenLocal
 resolvers += Resolver.mavenCentral
@@ -49,7 +50,6 @@ libraryDependencies ++= Seq(
   "io.bindingz" % "bindingz-annotations" % "1.0.0",
   "io.bindingz" % "bindingz-api-client-java" % "1.0.0" exclude("com.kjetland", "mbknor-jackson-jsonschema_2.13"),
   "com.kjetland" %% "mbknor-jackson-jsonschema" % "1.0.39",
-  "com.dorkbox" % "Annotations" % "2.14",
   "com.fasterxml.jackson.module" % "jackson-module-jsonSchema" % "2.10.0.pr1",
   "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.10.0.pr1"
 )

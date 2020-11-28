@@ -16,10 +16,11 @@
 
 package io.bindingz.plugin.gradle.tasks
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import io.bindingz.plugin.gradle.extension.PublishConfiguration
+
+import io.bindingz.api.client.ClassGraphTypeScanner
 import io.bindingz.api.client.ContractRegistryClient
 import io.bindingz.api.client.ContractService
+import io.bindingz.plugin.gradle.extension.PublishConfiguration
 import org.gradle.api.DefaultTask
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.tasks.Internal
@@ -39,8 +40,6 @@ class PublishResourcesTask extends DefaultTask {
     @Internal
     ClassLoader classLoader;
 
-    ObjectMapper mapper = new ObjectMapper()
-
     PublishResourcesTask() {
         description = 'Publishes contract.'
         group = 'Build'
@@ -48,14 +47,11 @@ class PublishResourcesTask extends DefaultTask {
 
     @TaskAction
     def generate() {
-        def client = new ContractRegistryClient(registry, apiKey, mapper)
-        System.out.println(registry + " " + apiKey);
+        def client = new ContractRegistryClient(registry, apiKey)
+        def service = new ContractService(new ClassGraphTypeScanner(classLoader))
 
-        def service = new ContractService(mapper)
-
-        println("PublishConfigurations: " + publishConfigurations.size())
         publishConfigurations.forEach { p ->
-            service.create(classLoader, p.scanBasePackage).forEach { c ->
+            service.create(p.scanBasePackage).forEach { c ->
                 client.publishContract(c)
             }
         }

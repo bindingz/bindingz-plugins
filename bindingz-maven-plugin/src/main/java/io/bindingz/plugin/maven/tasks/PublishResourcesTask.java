@@ -17,13 +17,13 @@
 package io.bindingz.plugin.maven.tasks;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.bindingz.api.client.ClassGraphTypeScanner;
 import io.bindingz.api.client.ContractRegistryClient;
 import io.bindingz.api.client.ContractService;
 import io.bindingz.api.model.ContractDto;
 import io.bindingz.plugin.maven.PublishConfiguration;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 
 public class PublishResourcesTask implements ExecutableTask {
@@ -44,7 +44,7 @@ public class PublishResourcesTask implements ExecutableTask {
 
     public void execute() throws IOException {
         ContractRegistryClient client = new ContractRegistryClient(registry, apiKey, mapper);
-        ContractService service = new ContractService(Arrays.asList(classLoader));
+        ContractService service = new ContractService(new ClassGraphTypeScanner(classLoader));
 
         for (PublishConfiguration p : publishConfigurations) {
             for (ContractDto c : service.create(p.getScanBasePackage())) {

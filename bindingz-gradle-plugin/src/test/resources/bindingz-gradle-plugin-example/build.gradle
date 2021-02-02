@@ -50,7 +50,7 @@ bindingz {
 }
 
 dependencies {
-    compile 'io.bindingz:bindingz-annotations:1.0.1'
+    compile 'io.bindingz:bindingz-annotations:1.0.2'
     compile 'com.fasterxml.jackson.core:jackson-core:2.9.8'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.8'
 }

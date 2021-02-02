@@ -20,8 +20,8 @@ import java.nio.file.Paths
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import io.bindingz.api.client.{ContractRegistryClient, ContractService}
-import io.bindingz.api.configuration.SourceCodeConfiguration
+import io.bindingz.api.client.{ClassGraphTypeScanner, ContractRegistryClient, ContractService}
+import io.bindingz.api.model.SourceCodeConfiguration
 import sbt.Keys._
 import sbt.{AutoPlugin, Compile, Def, File, IO, PluginTrigger, Plugins, Setting, Test, inConfig, plugins}
 
@@ -97,9 +97,9 @@ object BindingzPlugin extends AutoPlugin {
     val cp: Seq[File] = (fullClasspath in Compile).value.files
     val classLoader = ClassLoaderFactory.createClassLoader(cp)
     val client = new ContractRegistryClient(bindingzRegistry.value, bindingzApiKey.value, objectMapper)
-    val contractService = new ContractService(objectMapper)
+    val contractService = new ContractService(new ClassGraphTypeScanner(classLoader))
     bindingzPublishConfigurations.value.map(c => {
-      val resources = contractService.create(classLoader, c.scanBasePackage)
+      val resources = contractService.create(c.scanBasePackage)
       resources.asScala.foreach(client.publishContract)
     })
   }

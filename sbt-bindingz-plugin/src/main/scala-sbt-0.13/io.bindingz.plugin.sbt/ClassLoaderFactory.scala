@@ -2,10 +2,10 @@ package io.bindingz.plugin.sbt
 
 import sbt.File
 
-import scala.tools.nsc.util.ScalaClassLoader.URLClassLoader
+import scala.tools.nsc.util.ScalaClassLoader
 
 object ClassLoaderFactory {
   def createClassLoader(cp: Seq[File]): ClassLoader = {
-    new URLClassLoader(cp.map(c => c.toURI.toURL), this.getClass.getClassLoader)
+    ScalaClassLoader.fromURLs(cp.map(c => c.toURI.toURL))
   }
 }

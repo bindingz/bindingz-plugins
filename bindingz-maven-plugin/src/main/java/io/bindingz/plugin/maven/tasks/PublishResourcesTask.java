@@ -20,11 +20,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.bindingz.api.client.ClassGraphTypeScanner;
 import io.bindingz.api.client.ContractRegistryClient;
 import io.bindingz.api.client.ContractService;
+import io.bindingz.api.client.context.definition.model.PublishConfiguration;
+import io.bindingz.api.client.jackson.JacksonContractService;
 import io.bindingz.api.model.ContractDto;
-import io.bindingz.plugin.maven.PublishConfiguration;
+import org.apache.maven.project.MavenProject;
 
 import java.io.IOException;
-import java.util.Collection;
 
 public class PublishResourcesTask implements ExecutableTask {
 
@@ -32,24 +33,26 @@ public class PublishResourcesTask implements ExecutableTask {
 
     private final String registry;
     private final String apiKey;
-    private final Collection<PublishConfiguration> publishConfigurations;
+    private final PublishConfiguration publishConfiguration;
     private final ClassLoader classLoader;
 
-    public PublishResourcesTask(String registry, String apiKey, Collection<PublishConfiguration> publishConfigurations, ClassLoader classLoader) {
+    public PublishResourcesTask(
+            String registry,
+            String apiKey,
+            PublishConfiguration publishConfiguration,
+            ClassLoader classLoader) {
         this.registry = registry;
         this.apiKey = apiKey;
-        this.publishConfigurations = publishConfigurations;
+        this.publishConfiguration = publishConfiguration;
         this.classLoader = classLoader;
     }
 
     public void execute() throws IOException {
         ContractRegistryClient client = new ContractRegistryClient(registry, apiKey, mapper);
-        ContractService service = new ContractService(new ClassGraphTypeScanner(classLoader));
+        ContractService service = new JacksonContractService(new ClassGraphTypeScanner(classLoader));
 
-        for (PublishConfiguration p : publishConfigurations) {
-            for (ContractDto c : service.create(p.getScanBasePackage())) {
-                client.publishContract(c);
-            }
+        for (ContractDto c : service.create(publishConfiguration.getContracts())) {
+            client.publishContract(c);
         }
     }
 }

@@ -24,9 +24,6 @@ public abstract class AbstractBindingzMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project.build.directory}/generated-resources/bindingz", property = "targetResourceDirectory")
     protected File targetResourceDirectory;
 
-    @Parameter(property = "processConfigurations")
-    protected Collection<ProcessConfiguration> processConfigurations;
-
-    @Parameter(property = "publishConfigurations")
-    protected Collection<PublishConfiguration> publishConfigurations;
+    @Parameter(defaultValue = "${basedir}/bindingz.json", property = "configFileLocation")
+    protected String configFileLocation;
 }

@@ -18,12 +18,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>io.bindingz</groupId>
-      <artifactId>bindingz-annotations</artifactId>
-      <version>1.0.2</version>
-    </dependency>
-
-    <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
       <version>2.10.1</version>
@@ -35,27 +29,7 @@
       <plugin>
         <groupId>io.bindingz</groupId>
         <artifactId>bindingz-maven-plugin</artifactId>
-        <version>1.0.4-SNAPSHOT</version>
-        <configuration>
-          <processConfigurations>
-            <processConfiguration>
-              <namespace>default</namespace>
-              <owner>bindingz-maven-plugin-example</owner>
-              <contractName>ProjectToTestDto</contractName>
-              <version>5.0-SNAPSHOT</version>
-              <packageName>io.bindingz.sample.latest</packageName>
-              <className>SampleDto</className>
-              <sourceCodeConfiguration>
-                <targetLanguage>JAVA</targetLanguage>
-              </sourceCodeConfiguration>
-            </processConfiguration>
-          </processConfigurations>
-          <publishConfigurations>
-            <publishConfiguration>
-              <scanBasePackage>project.to.test</scanBasePackage>
-            </publishConfiguration>
-          </publishConfigurations>
-        </configuration>
+        <version>1.0.6-SNAPSHOT</version>
         <executions>
           <execution>
             <id>processResources</id>

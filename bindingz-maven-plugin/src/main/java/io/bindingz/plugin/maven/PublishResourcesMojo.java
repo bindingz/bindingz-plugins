@@ -1,5 +1,7 @@
 package io.bindingz.plugin.maven;
 
+import io.bindingz.api.client.context.definition.JsonDefinitionReader;
+import io.bindingz.api.client.context.definition.model.Definition;
 import io.bindingz.plugin.maven.tasks.PublishResourcesTask;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -19,7 +21,8 @@ import java.util.List;
 public class PublishResourcesMojo extends AbstractBindingzMojo {
 
     public void execute() throws MojoExecutionException {
-        if (publishConfigurations != null) {
+        Definition definition = new JsonDefinitionReader().read(configFileLocation);
+        if (definition.getPublish() != null) {
             try {
                 List<URL> urls = new ArrayList<>();
                 for (String element : project.getCompileClasspathElements()) {
@@ -27,7 +30,12 @@ public class PublishResourcesMojo extends AbstractBindingzMojo {
                 }
                 ClassLoader classLoader = new URLClassLoader(urls.toArray(new URL[]{}), this.getClass().getClassLoader());
                 Arrays.stream(((URLClassLoader) classLoader).getURLs()).forEach(x -> System.out.println(x));
-                new PublishResourcesTask(registry, apiKey, publishConfigurations, classLoader).execute();
+                new PublishResourcesTask(
+                        registry,
+                        apiKey,
+                        definition.getPublish(),
+                        classLoader
+                ).execute();
             } catch (IOException e) {
                 throw new MojoExecutionException(e.getMessage(), e);
             } catch (DependencyResolutionRequiredException e) {

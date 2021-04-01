@@ -18,10 +18,12 @@ package io.bindingz.plugin.maven.tasks;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.bindingz.api.client.ContractRegistryClient;
+import io.bindingz.api.client.context.definition.model.ProcessConfiguration;
+import io.bindingz.api.client.context.definition.model.ProcessContractDefinition;
 import io.bindingz.api.model.ContractDto;
 import io.bindingz.api.model.SourceCodeConfiguration;
 import io.bindingz.api.model.SourceResource;
-import io.bindingz.plugin.maven.ProcessConfiguration;
+import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +31,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Collection;
 
 public class ProcessResourcesTask implements ExecutableTask {
 
@@ -37,26 +38,36 @@ public class ProcessResourcesTask implements ExecutableTask {
 
     private final String registry;
     private final String apiKey;
+    private final MavenProject mavenProject;
     private final File targetSourceDirectory;
     private final File targetResourceDirectory;
-    private final Collection<ProcessConfiguration> processConfigurations;
+    private final ProcessConfiguration processConfiguration;
 
-    public ProcessResourcesTask(String registry, String apiKey, File targetSourceDirectory, File targetResourceDirectory, Collection<ProcessConfiguration> processConfigurations) {
+    public ProcessResourcesTask(
+            String registry,
+            String apiKey,
+            MavenProject mavenProject,
+            File targetSourceDirectory,
+            File targetResourceDirectory,
+            ProcessConfiguration processConfiguration) {
         this.apiKey = apiKey;
         this.registry = registry;
+        this.mavenProject = mavenProject;
         this.targetSourceDirectory = targetSourceDirectory;
         this.targetResourceDirectory = targetResourceDirectory;
-        this.processConfigurations = processConfigurations;
+        this.processConfiguration = processConfiguration;
     }
 
     public void execute() throws IOException {
         ContractRegistryClient client = new ContractRegistryClient(registry, apiKey, mapper);
-        for (ProcessConfiguration c : processConfigurations) {
+        for (ProcessContractDefinition c : processConfiguration.getContracts()) {
             SourceCodeConfiguration configuration = new SourceCodeConfiguration();
             configuration.setClassName(c.getClassName());
             configuration.setPackageName(c.getPackageName());
             configuration.setSourceCodeProvider(c.getSourceCodeProvider());
             configuration.setProviderConfiguration(c.getSourceCodeConfiguration());
+            configuration.setParticipantNamespace(mavenProject.getGroupId());
+            configuration.setParticipantName(mavenProject.getArtifactId());
 
             SourceResource resource = client.generateSources(c.getNamespace(), c.getOwner(), c.getContractName(), c.getVersion(), configuration);
             if (resource != null) {

@@ -1,0 +1,38 @@
+{
+  "publish": {
+    "namespace": "test",
+    "owner": "bindingz-gradle-plugin-example",
+    "packageName": "io.bindingz.contract.plugin.example.gradle",
+    "contracts": [
+      {
+        "className": "FooBarEvent",
+        "contractName": "FooBarEvent",
+        "version": "0.1-SNAPSHOT"
+      }
+    ]
+  },
+  "process": {
+    "namespace": "test",
+    "owner": "bindingz-gradle-plugin-example",
+    "contracts": [
+      {
+        "className": "LocalFooBarEvent",
+        "packageName": "io.bindingz.sample.scala",
+        "contractName": "ProjectToTestDto",
+        "version": "0.1-SNAPSHOT",
+        "sourceCodeConfiguration": {
+          "targetLanguage": "SCALA"
+        }
+      },
+      {
+        "className": "LocalFooBarEvent",
+        "packageName": "io.bindingz.sample.java",
+        "contractName": "ProjectToTestDto",
+        "version": "0.1-SNAPSHOT",
+        "sourceCodeConfiguration": {
+          "targetLanguage": "JAVA"
+        }
+      }
+    ]
+  }
+}

@@ -16,28 +16,16 @@
 
 package io.bindingz.plugin.gradle.extension
 
-import org.gradle.api.NamedDomainObjectContainer
-
 class BindingzExtension {
     String registry
     String apiKey
 
     File targetSourceDirectory;
     File targetResourceDirectory;
-
-    NamedDomainObjectContainer<ProcessConfiguration> processConfigurations
-    NamedDomainObjectContainer<PublishConfiguration> publishConfigurations
+    File configFileLocation;
 
     BindingzExtension() {
         super()
-    }
-
-    def processConfigurations(final Closure configureClosure) {
-        processConfigurations.configure(configureClosure)
-    }
-
-    def publishConfigurations(final Closure configureClosure) {
-        publishConfigurations.configure(configureClosure)
     }
 
     @Override

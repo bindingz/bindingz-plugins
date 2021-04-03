@@ -17,11 +17,11 @@
 package io.bindingz.plugin.gradle.tasks
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.bindingz.api.model.SourceCodeConfiguration
 import io.bindingz.api.client.ContractRegistryClient
-import io.bindingz.plugin.gradle.extension.ProcessConfiguration
+import io.bindingz.api.client.context.definition.JsonDefinitionReader
+import io.bindingz.api.model.SourceCodeConfiguration
 import org.gradle.api.DefaultTask
-import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
@@ -44,8 +44,8 @@ class ProcessResourcesTask extends DefaultTask {
     @OutputDirectory
     File targetResourceDirectory;
 
-    @Internal
-    NamedDomainObjectContainer<ProcessConfiguration> processConfigurations
+    @InputFile
+    File configFileLocation
 
     ObjectMapper mapper = new ObjectMapper()
 
@@ -55,49 +55,53 @@ class ProcessResourcesTask extends DefaultTask {
         setOnlyIf { true }
         outputs.upToDateWhen { false }
     }
+
     @TaskAction
     def generate() {
-        println("ProcessConfigurations: " + processConfigurations.size())
-
         def client = new ContractRegistryClient(registry, apiKey, mapper)
-        processConfigurations.forEach { c ->
-            def configuration = new SourceCodeConfiguration()
-            configuration.setClassName(c.className)
-            configuration.setPackageName(c.packageName)
-            configuration.setSourceCodeProvider(c.getSourceCodeProvider())
-            configuration.setProviderConfiguration(c.getSourceCodeConfiguration())
+        def definition = new JsonDefinitionReader().read(configFileLocation.toString());
+        if (definition.getProcess() != null) {
+            definition.getProcess().getContracts().forEach { c ->
+                def configuration = new SourceCodeConfiguration()
+                configuration.setClassName(c.getClassName())
+                configuration.setPackageName(c.getPackageName())
+                configuration.setSourceCodeProvider(c.getSourceCodeProvider())
+                configuration.setProviderConfiguration(c.getSourceCodeConfiguration())
+                configuration.setParticipantNamespace(getProject().getGroup())
+                configuration.setParticipantName(getProject().getName())
 
-            def resource = client.generateSources(c.namespace, c.owner, c.contractName, c.version, configuration)
-            if (resource != null) {
-                if (resource.getSources() != null) {
-                    resource.getSources().forEach{ s ->
+                def resource = client.generateSources(c.namespace, c.owner, c.contractName, c.version, configuration)
+                if (resource != null) {
+                    if (resource.getSources() != null) {
+                        resource.getSources().forEach { s ->
+                            try {
+                                def path = Paths.get(
+                                        targetSourceDirectory.getAbsolutePath(),
+                                        s.getFile().toArray(new String[s.getFile().size()])
+                                )
+                                path.toFile().getParentFile().mkdirs()
+                                Files.write(path, s.getContent().getBytes(), StandardOpenOption.CREATE)
+                            } catch (IOException e) {
+                                e.printStackTrace()
+                            }
+                        };
+                    }
+
+                    if (resource.getContent() != null) {
+                        def schema = resource.getContent()
                         try {
                             def path = Paths.get(
-                                    targetSourceDirectory.getAbsolutePath(),
-                                    s.getFile().toArray(new String[s.getFile().size()])
+                                    targetResourceDirectory.getAbsolutePath(),
+                                    schema.getNamespace(),
+                                    schema.getOwner(),
+                                    schema.getContractName(),
+                                    schema.getVersion()
                             )
                             path.toFile().getParentFile().mkdirs()
-                            Files.write(path, s.getContent().getBytes(), StandardOpenOption.CREATE)
+                            Files.write(path, mapper.writeValueAsBytes(schema.getSchema()), StandardOpenOption.CREATE)
                         } catch (IOException e) {
                             e.printStackTrace()
                         }
-                    };
-                }
-
-                if (resource.getContent() != null) {
-                    def schema = resource.getContent()
-                    try {
-                        def path = Paths.get(
-                                targetResourceDirectory.getAbsolutePath(),
-                                schema.getNamespace(),
-                                schema.getOwner(),
-                                schema.getContractName(),
-                                schema.getVersion()
-                        )
-                        path.toFile().getParentFile().mkdirs()
-                        Files.write(path, mapper.writeValueAsBytes(schema.getSchema()), StandardOpenOption.CREATE)
-                    } catch (IOException e) {
-                        e.printStackTrace()
                     }
                 }
             }

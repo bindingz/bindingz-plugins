@@ -17,10 +17,9 @@
 package io.bindingz.plugin.gradle
 
 
-import io.bindingz.plugin.gradle.extension.PublishConfiguration
 import io.bindingz.plugin.gradle.tasks.PublishResourcesTask
 import io.bindingz.plugin.gradle.extension.BindingzExtension
-import io.bindingz.plugin.gradle.extension.ProcessConfiguration
+
 import io.bindingz.plugin.gradle.tasks.ProcessResourcesTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -37,12 +36,7 @@ class BindingzPlugin implements Plugin<Project> {
     }
 
     private def setupExtension(final Project project) {
-        def configuration = project.extensions.create(EXTENSION_NAME, BindingzExtension)
-
-        configuration.publishConfigurations = project.container(PublishConfiguration)
-        configuration.processConfigurations = project.container(ProcessConfiguration)
-
-        configuration
+        project.extensions.create(EXTENSION_NAME, BindingzExtension)
     }
 
     def configureDirectories(final Project project) {
@@ -51,6 +45,7 @@ class BindingzPlugin implements Plugin<Project> {
 
             configuration.targetSourceDirectory = configuration.targetSourceDirectory ?: project.file("target/generated-sources/bindingz")
             configuration.targetResourceDirectory = configuration.targetResourceDirectory ?: project.file("target/generated-resources/bindingz")
+            configuration.configFileLocation = configuration.configFileLocation ?: project.file("bindingz.json")
 
             configuration.targetSourceDirectory.mkdirs()
             configuration.targetResourceDirectory.mkdirs()
@@ -70,12 +65,12 @@ class BindingzPlugin implements Plugin<Project> {
         def processResourcesTask = project.tasks.create "bindingzProcessResources", ProcessResourcesTask
         processResourcesTask.group = "bindingz"
         processResourcesTask.description = "Process bindingz resources"
-        processResourcesTask.processConfigurations = configuration.processConfigurations
         processResourcesTask.registry = configuration.registry
         processResourcesTask.apiKey = configuration.apiKey
 
         processResourcesTask.targetSourceDirectory = configuration.targetSourceDirectory
         processResourcesTask.targetResourceDirectory = configuration.targetResourceDirectory
+        processResourcesTask.configFileLocation = configuration.configFileLocation
 
         project.sourceSets.main.resources.srcDirs += [configuration.targetResourceDirectory]
 
@@ -94,9 +89,9 @@ class BindingzPlugin implements Plugin<Project> {
         def publishResourcesTask = project.tasks.create "bindingzPublishResources", PublishResourcesTask
         publishResourcesTask.group = "bindingz"
         publishResourcesTask.description = "Publish bindingz resources"
-        publishResourcesTask.publishConfigurations = configuration.publishConfigurations
         publishResourcesTask.registry = configuration.registry
         publishResourcesTask.apiKey = configuration.apiKey
+        publishResourcesTask.configFileLocation = configuration.configFileLocation
 
         Set<File> classFiles = project.sourceSets.main.runtimeClasspath.getFiles()
         URL[] urls = classFiles.collect { it.toURI().toURL() }.toArray() as URL[]

@@ -16,13 +16,12 @@
 
 package io.bindingz.plugin.gradle.tasks
 
-
 import io.bindingz.api.client.ClassGraphTypeScanner
 import io.bindingz.api.client.ContractRegistryClient
-import io.bindingz.api.client.ContractService
-import io.bindingz.plugin.gradle.extension.PublishConfiguration
+import io.bindingz.api.client.context.definition.JsonDefinitionReader
+import io.bindingz.api.client.jackson.JacksonContractService
 import org.gradle.api.DefaultTask
-import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
@@ -35,10 +34,10 @@ class PublishResourcesTask extends DefaultTask {
     String apiKey
 
     @Internal
-    NamedDomainObjectContainer<PublishConfiguration> publishConfigurations
-
-    @Internal
     ClassLoader classLoader;
+
+    @InputFile
+    File configFileLocation
 
     PublishResourcesTask() {
         description = 'Publishes contract.'
@@ -48,10 +47,10 @@ class PublishResourcesTask extends DefaultTask {
     @TaskAction
     def generate() {
         def client = new ContractRegistryClient(registry, apiKey)
-        def service = new ContractService(new ClassGraphTypeScanner(classLoader))
-
-        publishConfigurations.forEach { p ->
-            service.create(p.scanBasePackage).forEach { c ->
+        def service = new JacksonContractService(new ClassGraphTypeScanner(classLoader))
+        def definition = new JsonDefinitionReader().read(configFileLocation.toString());
+        if (definition.getPublish() != null) {
+            service.create(definition.getPublish().getContracts()).forEach { c ->
                 client.publishContract(c)
             }
         }

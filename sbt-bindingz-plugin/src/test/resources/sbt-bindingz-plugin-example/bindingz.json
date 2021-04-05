@@ -1,0 +1,26 @@
+{
+  "publish": {
+    "namespace": "test",
+    "owner": "bindingz-maven-plugin-example",
+    "packageName": "project.to.test",
+    "contracts": [
+      {
+        "className": "ProjectToTestDto",
+        "contractName": "ProjectToTestDto",
+        "version": "5.0-SNAPSHOT"
+      }
+    ]
+  },
+  "process": {
+    "namespace": "test",
+    "owner": "bindingz-maven-plugin-example",
+    "contracts": [
+      {
+        "className": "SampleDto",
+        "packageName": "io.bindingz.sample.latest",
+        "contractName": "ProjectToTestDto",
+        "version": "0.1-SNAPSHOT"
+      }
+    ]
+  }
+}

@@ -24,13 +24,8 @@ trait BindingzKeys {
 
   val bindingzTargetSourceDirectory = settingKey[File]("Target source directory")
   val bindingzTargetResourceDirectory = settingKey[File]("Target resource directory")
-
-  val bindingzPublishConfigurations = settingKey[Seq[BindingzPublishConfiguration]]("Bindingz publish configurations")
-  val bindingzProcessConfigurations = settingKey[Seq[BindingzProcessConfiguration]]("Bindingz process configurations")
+  val bindingzConfigFileLocation = settingKey[File]("Definition config file location")
 
   val bindingzProcessResources = taskKey[Seq[File]]("Process resources")
   val bindingzPublishResources = taskKey[Unit]("Publish contract code")
-
-  val BindingzProcessConfiguration = io.bindingz.plugin.sbt.BindingzProcessConfiguration
-  val BindingzPublishConfiguration = io.bindingz.plugin.sbt.BindingzPublishConfiguration
 }

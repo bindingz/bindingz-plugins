@@ -16,9 +16,9 @@
 
 package io.bindingz.contract.plugin.example.sbt
 
-import io.bindingz.sample.latest.InvoiceItemDto
+import io.bindingz.sample.latest.FooBar
 
 class ClassThatDependsOnCreatedClass {
-  var invoiceItem: InvoiceItemDto = new InvoiceItemDto()
-  invoiceItem.setOne("One")
+  var fooBar: FooBar = new FooBar()
+  fooBar.setFoo(1)
 }

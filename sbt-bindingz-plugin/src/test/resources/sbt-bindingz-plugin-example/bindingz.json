@@ -16,10 +16,13 @@
     "owner": "bindingz-maven-plugin-example",
     "contracts": [
       {
-        "className": "SampleDto",
+        "className": "FooBar",
         "packageName": "io.bindingz.sample.latest",
         "contractName": "ProjectToTestDto",
-        "version": "0.1-SNAPSHOT"
+        "version": "0.1-SNAPSHOT",
+        "sourceCodeConfiguration": {
+          "targetLanguage": "SCALA"
+        }
       }
     ]
   }

@@ -47,7 +47,7 @@ publishTo := Some(
 )
 
 libraryDependencies ++= Seq(
-  "io.bindingz" % "bindingz-api-client-java" % "1.0.3-SNAPSHOT" exclude("com.kjetland", "mbknor-jackson-jsonschema_2.13"),
+  "io.bindingz" % "bindingz-api-client-java" % "1.0.3" exclude("com.kjetland", "mbknor-jackson-jsonschema_2.13"),
   "com.kjetland" %% "mbknor-jackson-jsonschema" % "1.0.39",
   "com.fasterxml.jackson.module" % "jackson-module-jsonSchema" % "2.10.0.pr1",
   "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.10.0.pr1"

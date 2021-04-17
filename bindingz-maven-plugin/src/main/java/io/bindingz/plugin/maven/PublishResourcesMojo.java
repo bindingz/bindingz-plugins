@@ -28,7 +28,7 @@ public class PublishResourcesMojo extends AbstractBindingzMojo {
                 for (String element : project.getCompileClasspathElements()) {
                     urls.add(new File(element).toURI().toURL());
                 }
-                ClassLoader classLoader = new URLClassLoader(urls.toArray(new URL[]{}), this.getClass().getClassLoader());
+                ClassLoader classLoader = new URLClassLoader(urls.toArray(new URL[]{}));
                 Arrays.stream(((URLClassLoader) classLoader).getURLs()).forEach(x -> System.out.println(x));
                 new PublishResourcesTask(
                         registry,

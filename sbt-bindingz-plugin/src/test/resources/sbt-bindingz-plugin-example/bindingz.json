@@ -1,11 +1,11 @@
 {
   "publish": {
     "namespace": "test",
-    "owner": "bindingz-maven-plugin-example",
-    "packageName": "project.to.test",
+    "owner": "sbt-bindingz-plugin-example",
+    "packageName": "io.bindingz.plugin.example.sbt",
     "contracts": [
       {
-        "className": "ProjectToTestDto",
+        "className": "SampleDto",
         "contractName": "ProjectToTestDto",
         "version": "5.0-SNAPSHOT"
       }
@@ -13,7 +13,7 @@
   },
   "process": {
     "namespace": "test",
-    "owner": "bindingz-maven-plugin-example",
+    "owner": "sbt-bindingz-plugin-example",
     "contracts": [
       {
         "className": "FooBar",

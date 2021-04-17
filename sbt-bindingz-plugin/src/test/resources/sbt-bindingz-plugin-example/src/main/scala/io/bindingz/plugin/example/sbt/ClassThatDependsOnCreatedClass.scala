@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.bindingz.contract.plugin.example.sbt
+package io.bindingz.plugin.example.sbt
 
 import io.bindingz.sample.latest.FooBar
 

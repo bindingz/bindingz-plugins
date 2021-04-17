@@ -16,11 +16,9 @@
 
 package io.bindingz.plugin.gradle
 
-
-import io.bindingz.plugin.gradle.tasks.PublishResourcesTask
 import io.bindingz.plugin.gradle.extension.BindingzExtension
-
 import io.bindingz.plugin.gradle.tasks.ProcessResourcesTask
+import io.bindingz.plugin.gradle.tasks.PublishResourcesTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -95,7 +93,7 @@ class BindingzPlugin implements Plugin<Project> {
 
         Set<File> classFiles = project.sourceSets.main.runtimeClasspath.getFiles()
         URL[] urls = classFiles.collect { it.toURI().toURL() }.toArray() as URL[]
-        publishResourcesTask.classLoader = new URLClassLoader(urls, this.getClass().getClassLoader())
+        publishResourcesTask.classLoader = new URLClassLoader(urls)
 
         if (project.plugins.hasPlugin('java')) {
             publishResourcesTask.dependsOn(project.tasks.compileJava)

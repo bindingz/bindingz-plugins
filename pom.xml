@@ -42,7 +42,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.version>3.3.9</maven.version>
         <jackson.version>2.10.0.pr1</jackson.version>
-        <bindingz.core.version>1.0.3</bindingz.core.version>
+        <bindingz.core.version>1.0.4</bindingz.core.version>
+        <lombok.version>1.18.12</lombok.version>
     </properties>
 
     <build>
@@ -101,6 +102,13 @@
                     <compilerArgs>
                         <arg>-Xlint:deprecation</arg>
                     </compilerArgs>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
@@ -210,9 +218,20 @@
                 <version>${jackson.version}</version>
             </dependency>
             <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.17</version>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.36</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>1.2.10</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -222,6 +241,13 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 
     <distributionManagement>
         <snapshotRepository>

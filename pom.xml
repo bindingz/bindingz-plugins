@@ -4,7 +4,7 @@
 
     <groupId>io.bindingz</groupId>
     <artifactId>bindingz-plugins</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.0.7</version>
     <packaging>pom</packaging>
 
     <name>bindingz-plugins</name>
@@ -21,7 +21,7 @@
         <url>https://github.com/bindingz/bindingz-plugins</url>
         <connection>scm:git:https://github.com/bindingz/bindingz-plugins.git</connection>
         <developerConnection>scm:git:https://github.com/bindingz/bindingz-plugins.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>v1.0.7</tag>
   </scm>
 
     <licenses>

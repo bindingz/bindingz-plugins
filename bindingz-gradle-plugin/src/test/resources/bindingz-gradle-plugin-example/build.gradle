@@ -13,14 +13,14 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.bindingz:bindingz-gradle-plugin:1.0.6-SNAPSHOT'
+        classpath 'io.bindingz:bindingz-gradle-plugin:1.0.9-SNAPSHOT'
     }
 }
 
 dependencies {
-    compile 'io.bindingz:bindingz-annotations:1.0.2'
-    compile 'com.fasterxml.jackson.core:jackson-core:2.9.8'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.8'
+    compile 'io.bindingz:bindingz-context-jackson:1.0.4'
 }
 
 clean.doFirst {

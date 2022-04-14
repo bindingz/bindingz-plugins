@@ -16,12 +16,9 @@
 
 package io.bindingz.contract.plugin.example.gradle;
 
-import io.bindingz.api.annotations.Contract;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Contract(contractName = "FooBarEvent", owner = "bindingz-gradle-plugin-example", version = "1.1-SNAPSHOT")
 public class FooBarEvent {
     private String id;
     private String name;

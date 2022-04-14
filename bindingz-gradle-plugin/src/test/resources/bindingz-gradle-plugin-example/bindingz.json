@@ -3,6 +3,7 @@
     "namespace": "test",
     "owner": "bindingz-gradle-plugin-example",
     "packageName": "io.bindingz.contract.plugin.example.gradle",
+    "configurationFactoryClass": "io.bindingz.contract.plugin.example.gradle.config.BindingzPublishConfigurationFactory",
     "contracts": [
       {
         "className": "FooBarEvent",

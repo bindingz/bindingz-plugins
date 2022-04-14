@@ -93,7 +93,7 @@ class BindingzPlugin implements Plugin<Project> {
 
         Set<File> classFiles = project.sourceSets.main.runtimeClasspath.getFiles()
         URL[] urls = classFiles.collect { it.toURI().toURL() }.toArray() as URL[]
-        publishResourcesTask.classLoader = new URLClassLoader(urls)
+        publishResourcesTask.classLoader = new URLClassLoader(urls, this.getClass().getClassLoader())
 
         if (project.plugins.hasPlugin('java')) {
             publishResourcesTask.dependsOn(project.tasks.compileJava)

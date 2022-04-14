@@ -3,6 +3,7 @@
     "namespace": "test",
     "owner": "bindingz-maven-plugin-example",
     "packageName": "project.to.test",
+    "configurationFactoryClass": "project.to.test.config.BindingzPublishConfigurationFactory",
     "contracts": [
       {
         "className": "ProjectToTestDto",
